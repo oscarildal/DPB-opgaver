@@ -1,0 +1,278 @@
+Forklaring af landmandsapp
+
+Introduktion
+
+Denne app er lavet som en tablet-venlig landmandsapp, hvor brugeren kan logge ind og derefter navigere mellem flere sider. Formålet er at give et hurtigt overblik over daglig drift, opgaver, historik og robotter ude på markerne.
+
+Appen består af:
+- 1 login-side
+- 1 forside
+- 1 opgaveside
+- 1 historikside
+- 1 markkort-side
+- 1 backend til login
+- 1 SQL-database til at gemme data
+
+
+1. Overordnet opbygning
+
+Frontend er bygget i React. Det betyder, at appen er delt op i mindre komponenter og sider.
+
+De vigtigste mapper er:
+- src/pages: indeholder de forskellige sider i appen
+- src/components: indeholder fælles komponenter, fx layout og navigation
+- src/data: indeholder demo-data til opgaver, robotter, marker og historik
+- backend: indeholder server og databaseopsætning
+
+Denne struktur gør projektet mere overskueligt. Det er en god ide at dele ting op i flere filer, fordi hver fil så får ét tydeligt ansvar.
+
+
+2. Hovedfilen App.jsx
+
+Filen App.jsx styrer hele appens flow.
+
+Den gør især disse ting:
+- importerer de forskellige sider
+- gemmer login-oplysninger i state
+- holder styr på om brugeren er logget ind
+- holder styr på hvilken side der er aktiv
+- sender brugeren til login-siden eller videre ind i appen
+
+Vigtige state-variabler:
+- form: indeholder email og adgangskode
+- error: viser fejlbesked ved forkert login
+- isSubmitting: viser om login er i gang
+- session: gemmer oplysninger om den bruger, som er logget ind
+- activePage: bestemmer hvilken side der vises efter login
+
+Når brugeren logger ind:
+- App.jsx sender data til backend med fetch
+- backend tjekker email og adgangskode
+- hvis login lykkes, oprettes en session i frontend
+- hvis backend ikke kører, kan demo-login stadig bruges
+
+Det betyder, at appen både kan bruges som demo og som rigtig løsning senere.
+
+
+3. Login-siden
+
+Filen LoginPage.jsx viser login-skærmen.
+
+Siden indeholder:
+- en overskrift
+- en kort beskrivelse af appen
+- felter til email og adgangskode
+- en login-knap
+- demo-login-oplysninger
+
+Login-siden er lavet, så den er nem at bruge på en tablet. Felterne er store, og layoutet er tydeligt opdelt.
+
+Formålet med siden er:
+- at give brugeren adgang til systemet
+- at være enkel og hurtig at bruge
+- at kunne kobles til en rigtig database
+
+
+4. Layout og navigation
+
+Filen AppLayout.jsx bruges efter login.
+
+Den indeholder:
+- venstre sidepanel med app-navn
+- navigation mellem siderne
+- brugeroplysninger
+- log ud-knap
+- området hvor den aktive side bliver vist
+
+Navigationen bliver lavet ud fra data i appData.js. Det betyder, at man nemt kan tilføje flere menupunkter senere uden at ændre for meget kode.
+
+Fordelen ved dette layout er, at det passer godt til tablet:
+- menuen er altid tydelig
+- der er god plads til indhold
+- knapperne er store nok til berøring
+
+
+5. Forsiden
+
+Filen ForsidePage.jsx er appens dashboard.
+
+Forsiden viser:
+- en velkomst til brugeren
+- små informationskort med nøgletal
+- dagens vigtigste opgaver
+- status på robotterne
+
+Denne side fungerer som et hurtigt overblik. Brugeren skal kunne åbne appen og straks se, hvad der sker på gården.
+
+Eksempler på information på forsiden:
+- vandstatus
+- dieselniveau
+- hvor mange marker der er klar
+- hvilke robotter der arbejder lige nu
+
+
+6. Opgavesiden
+
+Filen OpgaverPage.jsx viser dagens opgaver.
+
+Den indeholder blandt andet:
+- tidspunkt
+- prioritet
+- ansvarlig person
+- status
+
+Siden er bygget som et opgave-overblik, hvor hver opgave vises som et kort. Det gør det nemmere at bruge på en tablet end en meget lille tabel.
+
+Formålet er, at landmanden eller medarbejderen hurtigt kan se:
+- hvad der skal laves
+- hvem der har ansvaret
+- hvad der er vigtigst
+
+
+7. Historik-siden
+
+Filen HistorikPage.jsx viser tidligere hændelser.
+
+Den bruger en slags tidslinje, hvor man kan se:
+- hvornår en robot startede
+- hvornår en opgave blev færdig
+- om der har været fejl
+- hvad der tidligere er sket i løbet af dagen
+
+Historik er vigtig, fordi brugeren kan følge med i, hvad systemet og robotterne har gjort tidligere.
+
+
+8. Markkort-siden
+
+Filen KortPage.jsx viser et simpelt kort over markerne.
+
+Siden indeholder:
+- marker som felter på kortet
+- robotmarkører med placering
+- en liste over robotter
+- en forklaring på markerne
+
+Kortet bruger lige nu demo-positioner. Det betyder, at robotternes placering er sat manuelt i datafilen. Senere kan det ændres til rigtige GPS-data fra backend eller en ekstern enhed.
+
+Formålet med siden er:
+- at vise hvor robotterne er
+- at give overblik over markerne
+- at skabe grundlag for senere live-sporing
+
+
+9. Datafilen appData.js
+
+Filen appData.js samler demo-data ét sted.
+
+Den indeholder:
+- demo-login
+- navigation
+- nøgletal
+- opgaver
+- historik
+- robotter
+- marker
+
+Det er smart at samle data i én fil, fordi:
+- siderne bliver lettere at læse
+- man undgår at skrive de samme data flere steder
+- det bliver lettere senere at udskifte demo-data med rigtige data fra databasen
+
+
+10. CSS og tablet-tilpasning
+
+Filen App.css styrer appens design.
+
+Der er især tænkt på tablet i layoutet:
+- store knapper
+- tydelige kort
+- god afstand mellem elementer
+- sidepanel og indhold ved siden af hinanden på større skærme
+- layoutet falder ned i færre kolonner på mindre skærme
+
+Det kaldes responsivt design. Det betyder, at appen tilpasser sig forskellige skærmstørrelser.
+
+Der er også brugt:
+- farver som passer til landbrug og natur
+- tydelige status-farver
+- kort-layout i stedet for små teksttunge områder
+
+
+11. Backend
+
+Filen backend/server.js er serveren.
+
+Den er bygget med:
+- Express
+- PostgreSQL
+- bcrypt
+- cors
+- dotenv
+
+Backendens vigtigste opgaver er:
+- at modtage login fra frontend
+- at slå brugeren op i databasen
+- at sammenligne adgangskoden med en hash
+- at sende et svar tilbage
+
+Vigtige endpoints:
+- GET /api/health: tester om server og database virker
+- POST /api/login: bruges når brugeren logger ind
+
+Hvorfor bruges bcrypt?
+
+Man må aldrig gemme adgangskoder som almindelig tekst. Derfor bliver adgangskoder gemt som password_hash i databasen. bcrypt bruges til at sammenligne brugerens indtastede adgangskode med den sikre hash.
+
+
+12. SQL-databasen
+
+Filen backend/schema.sql opretter databasen.
+
+Den laver tabeller til:
+- farms
+- users
+- fields
+- robots
+- tasks
+
+Det giver god mening at bruge SQL her, fordi en landmandsapp ofte har relationer mellem data:
+- en gård kan have flere brugere
+- en gård kan have flere marker
+- en gård kan have flere robotter
+- opgaver kan være knyttet til brugere og gårde
+
+Det passer godt til relationelle databaser som PostgreSQL eller MySQL.
+
+Eksempel:
+- users.farm_id fortæller, hvilken gård en bruger hører til
+- tasks.assigned_user_id fortæller, hvem der har ansvaret for en opgave
+
+
+13. Hvorfor denne løsning giver mening
+
+Denne løsning er god, fordi den:
+- er opdelt i flere overskuelige filer
+- har tydelige sider med hvert sit formål
+- er nem at udvide senere
+- er tilpasset tablet-brug
+- kan starte som demo og senere kobles til rigtig database og live-data
+
+Det er en god projektstruktur til både skoleprojekt og videreudvikling.
+
+
+14. Mulige næste trin
+
+Hvis appen skal udvikles videre, kunne næste trin være:
+- rigtig routing med react-router
+- oprettelse og redigering af opgaver
+- live GPS-sporing af robotter
+- brugerroller, fx ejer og medarbejder
+- visning af rigtige data fra databasen i stedet for demo-data
+- bedre sikkerhed med token eller session-login
+
+
+15. Konklusion
+
+Appen er bygget som en moderne React-løsning med en backend og SQL-database. Den er opdelt i flere filer, så koden er lettere at forstå og vedligeholde. Hver side har et tydeligt formål, og designet er lavet til at fungere godt på en tablet.
+
+Løsningen viser både, hvordan man kan bygge en flot brugerflade, og hvordan man kan koble den sammen med backend og database på en sikker måde.

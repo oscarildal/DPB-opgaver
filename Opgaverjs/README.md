@@ -1,16 +1,41 @@
-# React + Vite
+# Landmandsapp med login
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Projektet er nu sat op som en lille prototype med:
 
-Currently, two official plugins are available:
+- React-frontend med login-skærm og dashboard
+- backend-skabelon i `backend/`
+- SQL-schema til brugere, gårde, marker, robotter og opgaver
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Frontend
 
-## React Compiler
+Kør frontend:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Frontend virker også i demo-tilstand med:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Email: `landmand@markstyring.dk`
+- Adgangskode: `Traktor123!`
+
+## Backend
+
+Kør backend i en separat terminal:
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+Opret først en PostgreSQL-database og kør derefter `backend/schema.sql`.
+
+Lav en `.env` i `backend/` ud fra `.env.example`.
+
+## Vigtigt
+
+- Gem aldrig passwords i ren tekst
+- Brug altid `password_hash`
+- SQL er et godt valg her, fordi data i en landmandsapp ofte hænger sammen i relationer

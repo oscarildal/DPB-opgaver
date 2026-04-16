@@ -1,44 +1,119 @@
 import { useState } from "react";
+import "./App.css";
+import AppLayout from "./components/AppLayout.jsx";
+import { demoCredentials } from "./data/appData.js";
+import ForsidePage from "./pages/ForsidePage.jsx";
+import HistorikPage from "./pages/HistorikPage.jsx";
+import KortPage from "./pages/KortPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import OpgaverPage from "./pages/OpgaverPage.jsx";
+
+const initialForm = {
+  email: demoCredentials.email,
+  password: demoCredentials.password,
+};
+
+const pageComponents = {
+  forside: ForsidePage,
+  opgaver: OpgaverPage,
+  historik: HistorikPage,
+  kort: KortPage,
+};
+
 function App() {
+  const [form, setForm] = useState(initialForm);
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [session, setSession] = useState(null);
+  const [activePage, setActivePage] = useState("forside");
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setForm((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:4000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload.error || "Login mislykkedes");
+      }
+
+      const payload = await response.json();
+      setSession({
+        navn: payload.user.name,
+        gaard: payload.user.farmName,
+        mode: "database",
+      });
+      setActivePage("forside");
+      return;
+    } catch (requestError) {
+      const isDemoLogin =
+        form.email === demoCredentials.email &&
+        form.password === demoCredentials.password;
+
+      if (isDemoLogin) {
+        setSession({
+          navn: "Mikkel Jensen",
+          gaard: "Enggård Agro",
+          mode: "demo",
+        });
+        setActivePage("forside");
+      } else {
+        setError(
+          requestError.message === "Failed to fetch"
+            ? "Backend er ikke startet endnu. Brug demo-login eller start serveren."
+            : requestError.message,
+        );
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleLogout = () => {
+    setSession(null);
+    setError("");
+    setForm(initialForm);
+    setActivePage("forside");
+  };
+
+  if (!session) {
+    return (
+      <LoginPage
+        error={error}
+        form={form}
+        isSubmitting={isSubmitting}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+      />
+    );
+  }
+
+  const ActivePage = pageComponents[activePage];
+
   return (
-    <> 
-    <Knap/>
-    <ForsidePage/>
-    </>
+    <AppLayout
+      activePage={activePage}
+      onLogout={handleLogout}
+      onNavigate={setActivePage}
+      session={session}
+    >
+      <ActivePage session={session} />
+    </AppLayout>
   );
 }
+
 export default App;
-function Navbar() {
-  return (
-    <div> 
-      <Knap titel="Dashboard"/>
-      <Knap titel="Kort"/>
-      <Knap titel="Historik"/>
-      <Knap titel="Start Opgave"/>
-      </div>    
-  );
-}
-function Knap({titel = "Knap "}) {
-  return <button>{titel}</button>;
-}
-function ForsidePage () {
-  return (
-    <div>
-      <RobotStatus navn="Robot 1" status="Arbejder"/>
-      <RobotStatus navn="Robot 2" status="Lader"/>
-      <RobotStatus navn="Robot 3" status="Lader"/>
-      <RobotStatus navn="Robot 4" status="Lader"/>
-    </div>
-  );
-}
-function MiniMap() {
-  return <div>Mini kort</div>;
-}
-function RobotStatus({navn, status}) {
-  return (
-    <div>
-      <p>{navn}</p>
-      <p>{status}</p>
-    </div>
-  );
-}

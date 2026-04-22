@@ -610,6 +610,7 @@
   .page-hero {
     flex-direction: column;
   }
+
 }
 
 @media (max-width: 720px) {
@@ -651,4 +652,5 @@
   .map-area {
     min-height: 360px;
   }
+
 }

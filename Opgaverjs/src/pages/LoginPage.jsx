@@ -20,14 +20,6 @@ function LoginPage({ error, form, isSubmitting, onChange, onSubmit }) {
               </article>
             ))}
           </div>
-
-          <div className="hint-card">
-            <h2>Hvorfor flere filer giver mening</h2>
-            <p>
-              Ja, det er en god ide. Når hver side får sin egen fil, bliver koden
-              nemmere at finde rundt i og langt lettere at udvide senere.
-            </p>
-          </div>
         </div>
 
         <section className="login-panel">

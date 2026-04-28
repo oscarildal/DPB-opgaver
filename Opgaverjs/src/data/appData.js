@@ -6,7 +6,6 @@ export const demoCredentials = {
 export const navigationItems = [
   { id: "forside", label: "Forside", description: "Nøgletal og overblik", icon: "H" },
   { id: "opgaver", label: "Opgaver", description: "Dagens plan", icon: "O" },
-  { id: "historik", label: "Historik", description: "Seneste aktivitet", icon: "I" },
   { id: "kort", label: "Markkort", description: "Følg robotterne", icon: "K" },
 ];
 
@@ -57,31 +56,9 @@ export const tasks = [
   },
 ];
 
-export const historyItems = [
-  {
-    id: 1,
-    tidspunkt: "05:55",
-    titel: "Robot 1 startede rute",
-    beskrivelse: "Nordmarken blev scannet for ukrudt og jordfugtighed.",
-  },
-  {
-    id: 2,
-    tidspunkt: "08:10",
-    titel: "Vanding gennemført",
-    beskrivelse: "Mark 3 og 4 nåede dagens målniveau for fugt.",
-  },
-  {
-    id: 3,
-    tidspunkt: "11:40",
-    titel: "Fejlmelding på sensor",
-    beskrivelse: "Robot 2 mistede forbindelse i 4 minutter ved hegnslinjen.",
-  },
-  {
-    id: 4,
-    tidspunkt: "13:05",
-    titel: "Opgave markeret som færdig",
-    beskrivelse: "Gødning for mark 7 er klargjort til næste morgen.",
-  },
+export const systemAlerts = [
+  { id: 1, type: "sensor", message: "Fugtsensor i Vestengen svarer ustabilt." },
+  { id: 2, type: "connection", message: "Robot 2 mistede kort signal ved maskinhuset." },
 ];
 
 export const robots = [

@@ -1,6 +1,10 @@
 import { fields, robots } from "../data/appData.js";
 
-function KortPage() {
+function KortPage({ activeAssignments = [] }) {
+  const assignmentsByRobot = new Map(
+    activeAssignments.map((assignment) => [assignment.robotId, assignment]),
+  );
+
   return (
     <section className="page-stack">
       <header className="page-hero">
@@ -25,11 +29,16 @@ function KortPage() {
 
             {robots.map((robot) => (
               <div
-                className="robot-marker"
+                className={`robot-marker ${assignmentsByRobot.has(robot.id) ? "has-assignment" : ""}`}
                 key={robot.id}
                 style={{ left: robot.x, top: robot.y }}
               >
                 <span>{robot.id}</span>
+                {assignmentsByRobot.has(robot.id) ? (
+                  <small className="robot-marker-task">
+                    {assignmentsByRobot.get(robot.id).taskName}
+                  </small>
+                ) : null}
               </div>
             ))}
           </div>
@@ -48,6 +57,14 @@ function KortPage() {
                   <p>
                     {robot.lokation} • Batteri {robot.batteri}
                   </p>
+                  {assignmentsByRobot.has(robot.id) ? (
+                    <p className="robot-assignment-text">
+                      I gang med {assignmentsByRobot.get(robot.id).taskName} i{" "}
+                      {assignmentsByRobot.get(robot.id).fieldName}
+                    </p>
+                  ) : (
+                    <p className="robot-assignment-text muted-text">Ingen aktiv opgave endnu.</p>
+                  )}
                 </div>
                 <span className={`status-pill status-${robot.status.toLowerCase()}`}>
                   {robot.status}

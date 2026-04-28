@@ -1,3 +1,5 @@
+import BrandLogo from "./BrandLogo.jsx";
+import GlobalStatusBar from "./GlobalStatusBar.jsx";
 import { navigationItems } from "../data/appData.js";
 
 function AppLayout({ activePage, children, onLogout, onNavigate, session }) {
@@ -6,7 +8,7 @@ function AppLayout({ activePage, children, onLogout, onNavigate, session }) {
       <div className="app-frame">
         <aside className="side-panel">
           <div className="brand-lockup">
-            <p className="eyebrow">AgroPilot</p>
+            <BrandLogo />
             <h1>{session.gaard}</h1>
             <p className="muted-text">
               Tablet-venligt overblik over drift, opgaver og robotter i marken.
@@ -42,7 +44,10 @@ function AppLayout({ activePage, children, onLogout, onNavigate, session }) {
           </div>
         </aside>
 
-        <section className="content-shell">{children}</section>
+        <section className="content-shell">
+          <GlobalStatusBar session={session} />
+          {children}
+        </section>
       </div>
     </main>
   );

@@ -1,3 +1,4 @@
+import BrandLogo from "../components/BrandLogo.jsx";
 import { demoCredentials, fieldSummary } from "../data/appData.js";
 
 function LoginPage({ error, form, isSubmitting, onChange, onSubmit }) {
@@ -5,11 +6,11 @@ function LoginPage({ error, form, isSubmitting, onChange, onSubmit }) {
     <main className="app-shell login-shell">
       <section className="login-layout">
         <div className="brand-panel">
-          <p className="eyebrow">Landmandsapp</p>
+          <BrandLogo />
           <h1>Hold styr på marker, robotter og drift direkte fra din tablet.</h1>
           <p className="lead">
-            Appen er bygget som et arbejdsrum med ét login og fire centrale
-            skærme: forside, opgaver, historik og markkort.
+            Appen er bygget som et arbejdsrum med ét login og tre centrale
+            skærme: forside, opgaver og markkort.
           </p>
 
           <div className="info-grid">

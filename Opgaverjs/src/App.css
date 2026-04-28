@@ -79,6 +79,12 @@
   gap: 22px;
 }
 
+.brand-lockup {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
 .login-panel {
   display: flex;
   flex-direction: column;
@@ -88,6 +94,127 @@
 
 .content-shell {
   min-height: calc(100vh - 40px);
+}
+
+.global-status-bar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #09d881;
+}
+
+.brand-logo-mark {
+  width: 68px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.brand-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand-logo-title,
+.brand-logo-subtitle {
+  display: block;
+  line-height: 1;
+}
+
+.brand-logo-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--brand-strong);
+}
+
+.brand-logo-subtitle {
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.status-card {
+  padding: 16px 18px;
+  border: 1px solid rgba(65, 80, 40, 0.1);
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(255, 252, 244, 0.92), rgba(245, 238, 219, 0.9));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.status-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.status-card-label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status-card-value {
+  display: block;
+  font-size: 1.65rem;
+  line-height: 1.1;
+}
+
+.status-symbol {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.status-card-alert .status-symbol {
+  width: 28px;
+  height: 28px;
+  color: #ffd400;
+  filter: drop-shadow(0 0 8px rgba(255, 212, 0, 0.72));
+  animation: alert-blink 0.7s steps(2, end) infinite;
+}
+
+.status-card-alert .status-symbol,
+.status-card-alert .status-card-value {
+  color: #ffd400;
+}
+
+.status-card-connection.is-online .status-symbol,
+.status-card-connection.is-online .status-card-value {
+  color: #2d6b45;
+}
+
+.status-card-connection.is-demo .status-symbol,
+.status-card-connection.is-demo .status-card-value {
+  color: #8a641b;
+}
+
+@keyframes alert-blink {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 6px rgba(255, 212, 0, 0.6));
+  }
+
+  50% {
+    opacity: 0.18;
+    transform: scale(1.16);
+    filter: drop-shadow(0 0 18px rgba(255, 212, 0, 0.95));
+  }
 }
 
 .page-stack {
@@ -181,6 +308,158 @@
 
 .task-board {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.wizard-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.wizard-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.wizard-topbar h3 {
+  margin: 0;
+}
+
+.wizard-progress {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.wizard-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid rgba(65, 80, 40, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.wizard-step.is-active {
+  border-color: rgba(80, 108, 52, 0.28);
+  background: rgba(80, 108, 52, 0.12);
+}
+
+.wizard-step.is-complete {
+  border-color: rgba(44, 103, 96, 0.22);
+  background: rgba(44, 103, 96, 0.12);
+}
+
+.wizard-step-number {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  background: rgba(80, 108, 52, 0.12);
+  color: var(--brand-strong);
+}
+
+.wizard-step-label {
+  font-weight: 700;
+}
+
+.wizard-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wizard-intro {
+  gap: 24px;
+}
+
+.wizard-summary-grid,
+.wizard-review-grid,
+.wizard-choice-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.wizard-summary-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.wizard-choice-grid,
+.wizard-review-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.wizard-mini-card,
+.wizard-review-card,
+.wizard-choice-card,
+.wizard-note {
+  border: 1px solid rgba(65, 80, 40, 0.08);
+  border-radius: 20px;
+  background: var(--panel-strong);
+}
+
+.wizard-mini-card,
+.wizard-review-card,
+.wizard-note {
+  padding: 18px;
+}
+
+.wizard-mini-card strong,
+.wizard-review-card strong {
+  font-size: 1.45rem;
+}
+
+.wizard-choice-card {
+  padding: 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.wizard-choice-card:hover {
+  transform: translateY(-1px);
+}
+
+.wizard-choice-card.is-selected {
+  border-color: rgba(80, 108, 52, 0.3);
+  background: rgba(80, 108, 52, 0.12);
+}
+
+.wizard-choice-card strong,
+.wizard-review-card strong {
+  display: block;
+}
+
+.wizard-choice-card p,
+.wizard-review-card p,
+.wizard-note p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.wizard-choice-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 14px;
+  font-weight: 700;
+  color: var(--brand-strong);
+}
+
+.wizard-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wizard-actions .primary-button,
+.wizard-actions .secondary-button {
+  min-width: 150px;
 }
 
 .info-card,
@@ -552,6 +831,20 @@
   box-shadow: 0 10px 18px rgba(36, 48, 25, 0.22);
 }
 
+.robot-marker.has-assignment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 34px;
+  height: 38px;
+  padding: 0 10px;
+  margin-left: -22px;
+  margin-top: -19px;
+  border-radius: 999px;
+  gap: 8px;
+}
+
 .robot-marker::after {
   content: "";
   position: absolute;
@@ -560,8 +853,22 @@
   border: 1px solid rgba(36, 48, 25, 0.2);
 }
 
+.robot-marker-task {
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.robot-assignment-text {
+  margin-top: 6px;
+}
+
 .legend-item {
   margin-top: 14px;
+}
+
+.wizard-note strong {
+  display: block;
 }
 
 .legend-dot {
@@ -603,6 +910,11 @@
   .stats-grid,
   .content-grid.two-columns,
   .map-layout,
+  .global-status-bar,
+  .wizard-progress,
+  .wizard-summary-grid,
+  .wizard-choice-grid,
+  .wizard-review-grid,
   .task-board {
     grid-template-columns: 1fr;
   }
@@ -629,6 +941,20 @@
 
   .main-nav {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wizard-topbar,
+  .wizard-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .brand-logo {
+    align-items: flex-start;
+  }
+
+  .brand-logo-mark {
+    width: 56px;
   }
 
   .task-item,

@@ -1082,6 +1082,20 @@
     width: 56px;
   }
 
+  .wizard-topbar,
+  .wizard-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .brand-logo {
+    align-items: flex-start;
+  }
+
+  .brand-logo-mark {
+    width: 56px;
+  }
+
   .task-item,
   .robot-row,
   .timeline-item,

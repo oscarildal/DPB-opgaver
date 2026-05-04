@@ -42,13 +42,26 @@ function ConnectionIcon() {
   );
 }
 
-function GlobalStatusBar({ session }) {
-  const activeRobots = robots.filter((robot) => robot.status === "Arbejder").length;
-  const connectionLabel = session.mode === "database" ? "Online" : "Demo";
+function GlobalStatusBar({ emergencyStopActive, session }) {
+  const activeRobots = emergencyStopActive
+    ? 0
+    : robots.filter((robot) => robot.status === "Arbejder").length;
+  const connectionLabel = emergencyStopActive
+    ? "STOP aktiveret"
+    : session.mode === "database"
+      ? "Online"
+      : "Demo";
   const connectionTone = session.mode === "database" ? "is-online" : "is-demo";
 
   return (
     <section aria-label="Global status" className="global-status-bar">
+      {emergencyStopActive && (
+        <article className="status-card status-card-stop">
+          <span className="status-card-label">Nødstop</span>
+          <strong className="status-card-value">Alle robotter stoppet</strong>
+        </article>
+      )}
+
       <article className="status-card">
         <span className="status-card-label">Aktive Robotter</span>
         <strong className="status-card-value">{activeRobots}</strong>
@@ -62,7 +75,11 @@ function GlobalStatusBar({ session }) {
         <strong className="status-card-value">{systemAlerts.length}</strong>
       </article>
 
-      <article className={`status-card status-card-connection ${connectionTone}`}>
+      <article
+        className={`status-card status-card-connection ${
+          emergencyStopActive ? "is-stopped" : connectionTone
+        }`}
+      >
         <div className="status-card-head">
           <ConnectionIcon />
           <span className="status-card-label">Forbindelse</span>

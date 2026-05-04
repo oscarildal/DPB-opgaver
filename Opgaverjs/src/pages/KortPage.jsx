@@ -1,6 +1,6 @@
 import { fields, robots } from "../data/appData.js";
 
-function KortPage({ activeAssignments = [] }) {
+function KortPage({ activeAssignments = [], emergencyStopActive }) {
   const assignmentsByRobot = new Map(
     activeAssignments.map((assignment) => [assignment.robotId, assignment]),
   );
@@ -27,20 +27,26 @@ function KortPage({ activeAssignments = [] }) {
               </div>
             ))}
 
-            {robots.map((robot) => (
-              <div
-                className={`robot-marker ${assignmentsByRobot.has(robot.id) ? "has-assignment" : ""}`}
-                key={robot.id}
-                style={{ left: robot.x, top: robot.y }}
-              >
-                <span>{robot.id}</span>
-                {assignmentsByRobot.has(robot.id) ? (
-                  <small className="robot-marker-task">
-                    {assignmentsByRobot.get(robot.id).taskName}
-                  </small>
-                ) : null}
-              </div>
-            ))}
+            {robots.map((robot) => {
+              const hasAssignment = assignmentsByRobot.has(robot.id);
+
+              return (
+                <div
+                  className={`robot-marker ${hasAssignment ? "has-assignment" : ""} ${
+                    emergencyStopActive ? "is-stopped" : ""
+                  }`}
+                  key={robot.id}
+                  style={{ left: robot.x, top: robot.y }}
+                >
+                  <span>{robot.id}</span>
+                  {hasAssignment ? (
+                    <small className="robot-marker-task">
+                      {assignmentsByRobot.get(robot.id).taskName}
+                    </small>
+                  ) : null}
+                </div>
+              );
+            })}
           </div>
         </article>
 
@@ -50,27 +56,30 @@ function KortPage({ activeAssignments = [] }) {
             <span>{robots.length} enheder</span>
           </div>
           <div className="robot-list">
-            {robots.map((robot) => (
-              <div className="robot-row" key={robot.id}>
-                <div>
-                  <strong>{robot.navn}</strong>
-                  <p>
-                    {robot.lokation} • Batteri {robot.batteri}
-                  </p>
-                  {assignmentsByRobot.has(robot.id) ? (
-                    <p className="robot-assignment-text">
-                      I gang med {assignmentsByRobot.get(robot.id).taskName} i{" "}
-                      {assignmentsByRobot.get(robot.id).fieldName}
+            {robots.map((robot) => {
+              const hasAssignment = assignmentsByRobot.has(robot.id);
+              const status = emergencyStopActive ? "Stoppet" : robot.status;
+
+              return (
+                <div className="robot-row" key={robot.id}>
+                  <div>
+                    <strong>{robot.navn}</strong>
+                    <p>
+                      {robot.lokation} • Batteri {robot.batteri}
                     </p>
-                  ) : (
-                    <p className="robot-assignment-text muted-text">Ingen aktiv opgave endnu.</p>
-                  )}
+                    {hasAssignment ? (
+                      <p className="robot-assignment-text">
+                        I gang med {assignmentsByRobot.get(robot.id).taskName} i{" "}
+                        {assignmentsByRobot.get(robot.id).fieldName}
+                      </p>
+                    ) : (
+                      <p className="robot-assignment-text muted-text">Ingen aktiv opgave endnu.</p>
+                    )}
+                  </div>
+                  <span className={`status-pill status-${status.toLowerCase()}`}>{status}</span>
                 </div>
-                <span className={`status-pill status-${robot.status.toLowerCase()}`}>
-                  {robot.status}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="field-legend">

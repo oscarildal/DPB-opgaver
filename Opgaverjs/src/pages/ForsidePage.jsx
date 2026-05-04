@@ -1,6 +1,6 @@
 import { dashboardStats, robots, tasks } from "../data/appData.js";
 
-function ForsidePage({ session }) {
+function ForsidePage({ emergencyStopActive, session }) {
   return (
     <section className="page-stack">
       <header className="page-hero">
@@ -51,19 +51,21 @@ function ForsidePage({ session }) {
             <span>Live</span>
           </div>
           <div className="robot-list">
-            {robots.map((robot) => (
-              <div className="robot-row" key={robot.id}>
-                <div>
-                  <strong>{robot.navn}</strong>
-                  <p>
-                    {robot.lokation} • Batteri {robot.batteri}
-                  </p>
+            {robots.map((robot) => {
+              const status = emergencyStopActive ? "Stoppet" : robot.status;
+
+              return (
+                <div className="robot-row" key={robot.id}>
+                  <div>
+                    <strong>{robot.navn}</strong>
+                    <p>
+                      {robot.lokation} • Batteri {robot.batteri}
+                    </p>
+                  </div>
+                  <span className={`status-pill status-${status.toLowerCase()}`}>{status}</span>
                 </div>
-                <span className={`status-pill status-${robot.status.toLowerCase()}`}>
-                  {robot.status}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </article>
       </section>

@@ -1,9 +1,8 @@
 import { useState } from "react";
 import "./App.css";
 import AppLayout from "./components/AppLayout.jsx";
-import { demoCredentials } from "./data/appData.js";
+import { demoCredentials, robots } from "./data/appData.js";
 import ForsidePage from "./pages/ForsidePage.jsx";
-import HistorikPage from "./pages/HistorikPage.jsx";
 import KortPage from "./pages/KortPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import OpgaverPage from "./pages/OpgaverPage.jsx";
@@ -16,7 +15,6 @@ const initialForm = {
 const pageComponents = {
   forside: ForsidePage,
   opgaver: OpgaverPage,
-  historik: HistorikPage,
   kort: KortPage,
 };
 
@@ -26,6 +24,17 @@ function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [session, setSession] = useState(null);
   const [activePage, setActivePage] = useState("forside");
+  const [activeAssignments, setActiveAssignments] = useState([
+    {
+      robotId: robots[0].id,
+      robotName: robots[0].navn,
+      fieldId: robots[0].fieldId,
+      fieldName: robots[0].lokation,
+      taskName: "Inspektion",
+      estimatedTime: "1 time og 20 min",
+      automation: "75%",
+    },
+  ]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -90,6 +99,14 @@ function App() {
     setActivePage("forside");
   };
 
+  const handleStartTask = (assignment) => {
+    setActiveAssignments((current) => {
+      const remainingAssignments = current.filter((item) => item.robotId !== assignment.robotId);
+      return [assignment, ...remainingAssignments];
+    });
+    setActivePage("kort");
+  };
+
   if (!session) {
     return (
       <LoginPage
@@ -111,7 +128,11 @@ function App() {
       onNavigate={setActivePage}
       session={session}
     >
-      <ActivePage session={session} />
+      <ActivePage
+        activeAssignments={activeAssignments}
+        onStartTask={handleStartTask}
+        session={session}
+      />
     </AppLayout>
   );
 }

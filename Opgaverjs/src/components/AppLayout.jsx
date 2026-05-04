@@ -2,7 +2,15 @@ import BrandLogo from "./BrandLogo.jsx";
 import GlobalStatusBar from "./GlobalStatusBar.jsx";
 import { navigationItems } from "../data/appData.js";
 
-function AppLayout({ activePage, children, onLogout, onNavigate, session }) {
+function AppLayout({
+  activePage,
+  children,
+  emergencyStopActive,
+  onEmergencyStop,
+  onLogout,
+  onNavigate,
+  session,
+}) {
   return (
     <main className="app-shell">
       <div className="app-frame">
@@ -32,6 +40,16 @@ function AppLayout({ activePage, children, onLogout, onNavigate, session }) {
             ))}
           </nav>
 
+          <button
+            aria-pressed={emergencyStopActive}
+            className={`emergency-stop-button ${emergencyStopActive ? "is-active" : ""}`}
+            onClick={onEmergencyStop}
+            type="button"
+          >
+            <strong>{emergencyStopActive ? "STOP AKTIVERET" : "STOP"}</strong>
+            <span>{emergencyStopActive ? "Alle robotter er stoppet" : "Stop alle robotter"}</span>
+          </button>
+
           <div className="side-summary">
             <p className="eyebrow">Bruger</p>
             <strong>{session.navn}</strong>
@@ -45,7 +63,7 @@ function AppLayout({ activePage, children, onLogout, onNavigate, session }) {
         </aside>
 
         <section className="content-shell">
-          <GlobalStatusBar session={session} />
+          <GlobalStatusBar emergencyStopActive={emergencyStopActive} session={session} />
           {children}
         </section>
       </div>

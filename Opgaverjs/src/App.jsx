@@ -18,23 +18,26 @@ const pageComponents = {
   kort: KortPage,
 };
 
+const initialActiveAssignments = [
+  {
+    robotId: robots[0].id,
+    robotName: robots[0].navn,
+    fieldId: robots[0].fieldId,
+    fieldName: robots[0].lokation,
+    taskName: "Inspektion",
+    estimatedTime: "1 time og 20 min",
+    automation: "75%",
+  },
+];
+
 function App() {
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [session, setSession] = useState(null);
   const [activePage, setActivePage] = useState("forside");
-  const [activeAssignments, setActiveAssignments] = useState([
-    {
-      robotId: robots[0].id,
-      robotName: robots[0].navn,
-      fieldId: robots[0].fieldId,
-      fieldName: robots[0].lokation,
-      taskName: "Inspektion",
-      estimatedTime: "1 time og 20 min",
-      automation: "75%",
-    },
-  ]);
+  const [emergencyStopActive, setEmergencyStopActive] = useState(false);
+  const [activeAssignments, setActiveAssignments] = useState(initialActiveAssignments);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -67,6 +70,8 @@ function App() {
         mode: "database",
       });
       setActivePage("forside");
+      setEmergencyStopActive(false);
+      setActiveAssignments(initialActiveAssignments);
       return;
     } catch (requestError) {
       const isDemoLogin =
@@ -80,6 +85,8 @@ function App() {
           mode: "demo",
         });
         setActivePage("forside");
+        setEmergencyStopActive(false);
+        setActiveAssignments(initialActiveAssignments);
       } else {
         setError(
           requestError.message === "Failed to fetch"
@@ -97,14 +104,25 @@ function App() {
     setError("");
     setForm(initialForm);
     setActivePage("forside");
+    setEmergencyStopActive(false);
+    setActiveAssignments(initialActiveAssignments);
   };
 
   const handleStartTask = (assignment) => {
+    if (emergencyStopActive) {
+      return;
+    }
+
     setActiveAssignments((current) => {
       const remainingAssignments = current.filter((item) => item.robotId !== assignment.robotId);
       return [assignment, ...remainingAssignments];
     });
     setActivePage("kort");
+  };
+
+  const handleEmergencyStop = () => {
+    setEmergencyStopActive(true);
+    setActiveAssignments([]);
   };
 
   if (!session) {
@@ -124,12 +142,15 @@ function App() {
   return (
     <AppLayout
       activePage={activePage}
+      emergencyStopActive={emergencyStopActive}
+      onEmergencyStop={handleEmergencyStop}
       onLogout={handleLogout}
       onNavigate={setActivePage}
       session={session}
     >
       <ActivePage
         activeAssignments={activeAssignments}
+        emergencyStopActive={emergencyStopActive}
         onStartTask={handleStartTask}
         session={session}
       />

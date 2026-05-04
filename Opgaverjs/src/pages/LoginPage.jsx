@@ -1,5 +1,5 @@
 import BrandLogo from "../components/BrandLogo.jsx";
-import { demoCredentials, fieldSummary } from "../data/appData.js";
+import { demoCredentials } from "../data/appData.js";
 
 function LoginPage({ error, form, isSubmitting, onChange, onSubmit }) {
   return (
@@ -7,20 +7,13 @@ function LoginPage({ error, form, isSubmitting, onChange, onSubmit }) {
       <section className="login-layout">
         <div className="brand-panel">
           <BrandLogo />
-          <h1>Hold styr på marker, robotter og drift direkte fra din tablet.</h1>
+          <h1>Velkommen til Ventrigo Agrobotics</h1>
           <p className="lead">
-            Appen er bygget som et arbejdsrum med ét login og tre centrale
-            skærme: forside, opgaver og markkort.
+            Log ind for at få adgang til Ventrigo Agrobotics' driftssystem til landbrugsrobotter og markovervågning.
           </p>
-
-          <div className="info-grid">
-            {fieldSummary.map((item) => (
-              <article className="info-card" key={item.label}>
-                <span>{item.label}</span>
-                <strong>{item.value}</strong>
-              </article>
-            ))}
-          </div>
+          <p>
+            Ventrigo Agrobotics styrker din drift med automatisering, intelligent dataindsigt og et samlet overblik over opgaver, robotter og marker.
+          </p>
         </div>
 
         <section className="login-panel">
@@ -28,7 +21,7 @@ function LoginPage({ error, form, isSubmitting, onChange, onSubmit }) {
             <p className="eyebrow">Login</p>
             <h2>Log ind på driftscenteret</h2>
             <p>
-              Demo-login er udfyldt, så du hurtigt kan se hele løsningen i gang.
+              Brug dit login for at gå videre og åbne din Ventrigo-platform.
             </p>
           </div>
 

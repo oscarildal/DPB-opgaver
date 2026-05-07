@@ -37,6 +37,7 @@ function App() {
   const [session, setSession] = useState(null);
   const [activePage, setActivePage] = useState("forside");
   const [emergencyStopActive, setEmergencyStopActive] = useState(false);
+  const [showStopConfirmation, setShowStopConfirmation] = useState(false);
   const [activeAssignments, setActiveAssignments] = useState(initialActiveAssignments);
 
   const handleChange = (event) => {
@@ -105,6 +106,7 @@ function App() {
     setForm(initialForm);
     setActivePage("forside");
     setEmergencyStopActive(false);
+    setShowStopConfirmation(false);
     setActiveAssignments(initialActiveAssignments);
   };
 
@@ -121,8 +123,21 @@ function App() {
   };
 
   const handleEmergencyStop = () => {
+    if (emergencyStopActive) {
+      return;
+    }
+
+    setShowStopConfirmation(true);
+  };
+
+  const confirmEmergencyStop = () => {
     setEmergencyStopActive(true);
+    setShowStopConfirmation(false);
     setActiveAssignments([]);
+  };
+
+  const cancelEmergencyStop = () => {
+    setShowStopConfirmation(false);
   };
 
   if (!session) {
@@ -144,9 +159,12 @@ function App() {
       activePage={activePage}
       emergencyStopActive={emergencyStopActive}
       onEmergencyStop={handleEmergencyStop}
+      onStopCancel={cancelEmergencyStop}
+      onStopConfirm={confirmEmergencyStop}
       onLogout={handleLogout}
       onNavigate={setActivePage}
       session={session}
+      showStopConfirmation={showStopConfirmation}
     >
       <ActivePage
         activeAssignments={activeAssignments}

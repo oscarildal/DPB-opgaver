@@ -608,7 +608,8 @@
 .primary-button,
 .secondary-button,
 .nav-button,
-.emergency-stop-button {
+.emergency-stop-button,
+.danger-button {
   border: 0;
   border-radius: 18px;
   font: inherit;
@@ -616,7 +617,8 @@
 
 .primary-button,
 .secondary-button,
-.emergency-stop-button {
+.emergency-stop-button,
+.danger-button {
   padding: 14px 18px;
   font-weight: 700;
   cursor: pointer;
@@ -633,6 +635,12 @@
   color: var(--brand-strong);
 }
 
+.danger-button {
+  background: linear-gradient(135deg, #9e1717, #d93b2f);
+  color: #fff8f1;
+  box-shadow: 0 14px 28px rgba(141, 43, 43, 0.26);
+}
+
 .full-width {
   width: 100%;
 }
@@ -640,7 +648,8 @@
 .primary-button:hover,
 .secondary-button:hover,
 .nav-button:hover,
-.emergency-stop-button:hover {
+.emergency-stop-button:hover,
+.danger-button:hover {
   transform: translateY(-1px);
 }
 
@@ -721,9 +730,17 @@
   display: grid;
   place-items: center;
   background: rgba(255, 255, 255, 0.45);
-  font-size: 1.48rem;
-  font-weight: 800;
   flex-shrink: 0;
+}
+
+.nav-icon svg {
+  width: 34px;
+  height: 34px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.9;
 }
 
 .emergency-stop-button {
@@ -762,6 +779,45 @@
   animation: stop-pulse 1.2s ease-in-out infinite;
 }
 
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(35, 40, 29, 0.48);
+  backdrop-filter: blur(5px);
+}
+
+.stop-confirmation-dialog {
+  width: min(100%, 460px);
+  padding: 30px;
+  border: 1px solid rgba(141, 43, 43, 0.18);
+  border-radius: 24px;
+  background: #fffdf6;
+  box-shadow: 0 28px 70px rgba(35, 40, 29, 0.26);
+}
+
+.stop-confirmation-dialog h2 {
+  margin: 10px 0 12px;
+  color: var(--danger);
+  font-size: 1.85rem;
+}
+
+.stop-confirmation-dialog p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.stop-confirmation-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
 @keyframes stop-pulse {
   0%,
   100% {
@@ -784,6 +840,26 @@
 .task-item,
 .robot-row {
   padding: 16px 18px;
+}
+
+.robot-select-button {
+  width: 100%;
+  border: 1px solid rgba(65, 80, 40, 0.08);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.robot-select-button:hover,
+.robot-select-button.is-selected {
+  border-color: rgba(80, 108, 52, 0.38);
+  box-shadow: 0 14px 28px rgba(65, 80, 40, 0.1);
+  transform: translateY(-1px);
+}
+
+.robot-select-button.is-selected {
+  background: rgba(80, 108, 52, 0.12);
 }
 
 .task-priority,
@@ -1069,7 +1145,8 @@
   }
 
   .wizard-topbar,
-  .wizard-actions {
+  .wizard-actions,
+  .stop-confirmation-actions {
     flex-direction: column;
     align-items: stretch;
   }

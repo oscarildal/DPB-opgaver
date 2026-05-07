@@ -65,7 +65,7 @@ function KortPage({ activeAssignments = [], emergencyStopActive }) {
                   <div>
                     <strong>{robot.navn}</strong>
                     <p>
-                      {robot.lokation} • Batteri {robot.batteri}
+                      {robot.lokation} • LGB-gas {robot.lgbGas}
                     </p>
                     {hasAssignment ? (
                       <p className="robot-assignment-text">

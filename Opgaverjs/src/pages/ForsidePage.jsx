@@ -1,6 +1,30 @@
-import { dashboardStats, robots, tasks } from "../data/appData.js";
+import { useState } from "react";
+import { fields, robots, tasks } from "../data/appData.js";
 
 function ForsidePage({ emergencyStopActive, session }) {
+  const [selectedRobotId, setSelectedRobotId] = useState(robots[0]?.id);
+  const selectedRobot = robots.find((robot) => robot.id === selectedRobotId) ?? robots[0];
+  const selectedField = fields.find((field) => field.id === selectedRobot?.fieldId);
+  const selectedRobotStats = [
+    {
+      label: "Vandstatus",
+      value: selectedRobot.vandstatus,
+      note: selectedField
+        ? `${selectedRobot.navn} på ${selectedField.navn}: ${selectedField.vand} vandniveau`
+        : `${selectedRobot.navn} har ingen aktiv mark`,
+    },
+    {
+      label: "LGB-gas",
+      value: selectedRobot.lgbGas,
+      note: `${selectedRobot.navn} sender senest signal ${selectedRobot.senesteSignal}`,
+    },
+    {
+      label: "Estimeret tid",
+      value: emergencyStopActive ? "Stoppet" : selectedRobot.estimeretTid,
+      note: selectedRobot.aktivOpgave,
+    },
+  ];
+
   return (
     <section className="page-stack">
       <header className="page-hero">
@@ -15,7 +39,7 @@ function ForsidePage({ emergencyStopActive, session }) {
       </header>
 
       <section className="stats-grid">
-        {dashboardStats.map((item) => (
+        {selectedRobotStats.map((item) => (
           <article className="surface-card compact-card" key={item.label}>
             <span className="card-label">{item.label}</span>
             <strong className="big-number">{item.value}</strong>
@@ -48,22 +72,28 @@ function ForsidePage({ emergencyStopActive, session }) {
         <article className="surface-card">
           <div className="card-heading">
             <h3>Robotstatus</h3>
-            <span>Live</span>
+            <span>Vælg robot</span>
           </div>
           <div className="robot-list">
             {robots.map((robot) => {
               const status = emergencyStopActive ? "Stoppet" : robot.status;
+              const isSelected = selectedRobot.id === robot.id;
 
               return (
-                <div className="robot-row" key={robot.id}>
+                <button
+                  className={`robot-row robot-select-button ${isSelected ? "is-selected" : ""}`}
+                  key={robot.id}
+                  onClick={() => setSelectedRobotId(robot.id)}
+                  type="button"
+                >
                   <div>
                     <strong>{robot.navn}</strong>
                     <p>
-                      {robot.lokation} • Batteri {robot.batteri}
+                      {robot.lokation} • LGB-gas {robot.lgbGas}
                     </p>
                   </div>
                   <span className={`status-pill status-${status.toLowerCase()}`}>{status}</span>
-                </div>
+                </button>
               );
             })}
           </div>

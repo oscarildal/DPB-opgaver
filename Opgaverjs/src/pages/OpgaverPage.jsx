@@ -240,7 +240,7 @@ function OpgaverPage({ onStartTask }) {
                 <span className="card-label">Foreslået robot</span>
                 <strong>{suggestedRobot.navn}</strong>
                 <p>
-                  {suggestedRobot.status} • Batteri {suggestedRobot.batteri}
+                  {suggestedRobot.status} • LGB-gas {suggestedRobot.lgbGas}
                 </p>
               </article>
             </div>

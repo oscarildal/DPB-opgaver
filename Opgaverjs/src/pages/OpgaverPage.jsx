@@ -78,7 +78,6 @@ function OpgaverPage({ onStartTask }) {
             før opgaven sendes i drift.
           </p>
         </div>
-        <div className="hero-pill">Task wizard til tablet</div>
       </header>
 
       <article className="surface-card wizard-shell">

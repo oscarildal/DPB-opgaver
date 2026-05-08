@@ -5,6 +5,11 @@ function ForsidePage({ emergencyStopActive, session }) {
   const [selectedRobotId, setSelectedRobotId] = useState(robots[0]?.id);
   const selectedRobot = robots.find((robot) => robot.id === selectedRobotId) ?? robots[0];
   const selectedField = fields.find((field) => field.id === selectedRobot?.fieldId);
+  const priorityClasses = {
+    Høj: "priority-high",
+    Mellem: "priority-medium",
+    Lav: "priority-low",
+  };
   const selectedRobotStats = [
     {
       label: "Vandstatus",
@@ -35,7 +40,6 @@ function ForsidePage({ emergencyStopActive, session }) {
             Her er et hurtigt overblik over dagens drift på {session.gaard}.
           </p>
         </div>
-        <div className="hero-pill">Tablet-optimeret driftsoverblik</div>
       </header>
 
       <section className="stats-grid">
@@ -63,7 +67,9 @@ function ForsidePage({ emergencyStopActive, session }) {
                     {task.tidspunkt} • {task.ansvarlig}
                   </p>
                 </div>
-                <span className="task-priority">{task.prioritet}</span>
+                <span className={`task-priority ${priorityClasses[task.prioritet] ?? ""}`}>
+                  {task.prioritet}
+                </span>
               </div>
             ))}
           </div>

@@ -4,21 +4,9 @@ export const demoCredentials = {
 };
 
 export const navigationItems = [
-  { id: "forside", label: "Forside", description: "Nøgletal og overblik", icon: "H" },
-  { id: "opgaver", label: "Opgaver", description: "Dagens plan", icon: "O" },
-  { id: "kort", label: "Markkort", description: "Følg robotterne", icon: "K" },
-];
-
-export const fieldSummary = [
-  { label: "Aktive marker", value: "12" },
-  { label: "Dagens opgaver", value: "7" },
-  { label: "Maskiner online", value: "5/6" },
-];
-
-export const dashboardStats = [
-  { label: "Vandstatus", value: "Stabil", note: "3 felter vandes i nat" },
-  { label: "LGB-gas", value: "68%", note: "Næste påfyldning fredag" },
-  { label: "Høstklar", value: "4 marker", note: "Byg og vinterhvede" },
+  { id: "forside", label: "Forside", description: "Nøgletal og overblik" },
+  { id: "opgaver", label: "Opgaver", description: "Start en ny opgave" },
+  { id: "kort", label: "Markkort", description: "Følg robotterne" },
 ];
 
 export const tasks = [
